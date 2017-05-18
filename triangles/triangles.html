@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			canvas[id="myCanvas"]{
+				background-color:#120C22;
+			}
+		</style>
+		<script type="text/javascript" src="../paperjs-v0.10.2/paper-full.min.js"></script>
+		<script type="text/javascript" src="../utils/random-utils.js"></script>
+		<script type="text/paperscript" canvas="myCanvas">
+
+			var color = '#BDFF00';
+			var canvasWidth = 540;
+			var canvasHeight = 288;
+
+			//Generate random triangles
+			var count = 25;
+			var triangles = [];
+			var k, hit, triangle;
+
+			for(var i = 0; i < count; i++){
+				do{
+					k = 0;
+					hit = false;
+					triangle = drawTriangle();
+					for(var j = 0; j < triangles.length; j++){
+						hit = triangle.intersects(triangles[j]);
+						if(hit){
+							triangle.remove();
+							break;
+						}
+					}
+				} while(hit);
+
+				triangles.push(triangle);
+			}
+
+			//Clean up wrap around
+			var leftSide = new Path.Line([0,0], [0, canvasHeight]);
+			var rightSide = new Path.Line([canvasWidth, 0], [canvasWidth, canvasHeight]);
+			var triangleClone;
+			
+			for(n = 0; n < triangles.length; n++){
+				hit = false;
+				if(triangles[n].intersects(leftSide)){
+					triangleClone = triangles[n].clone();
+					triangleClone.position.x += canvasWidth;
+					removeCloneIntersections(triangleClone, triangles);
+				}
+				else if(triangles[n].intersects(rightSide)){
+					triangleClone = triangles[n].clone();
+					triangleClone.position.x -= canvasWidth;
+					removeCloneIntersections(triangleClone, triangles);
+				}
+			}
+
+			leftSide.remove();
+			rightSide.remove();
+
+			function drawTriangle(){
+				var point1 = [getRandomInt(-10, canvasWidth), getRandomInt(-10, canvasHeight + 10)];
+				var point2 = [point1[0] + getRandomInt(60, 130), point1[1] + getRandomInt(-40, 40)];
+				var point3 = [(point1[0] + point2[0])/2 + getRandomInt(-10, 10), point1[1] + getRandomInt(40, 130)];
+
+				var segments = [point1, point2, point3];
+				var triangle = new Path({
+					segments: segments,
+					fillColor: color,
+					closed: true,
+				});
+
+				var rotation = getRandomInt(0, 270);
+				triangle.rotate(rotation);
+				
+				return triangle;
+			}
+
+			function removeCloneIntersections(clone, triangles){
+				for(var t = 0; t < triangles.length; t++){
+					hit = clone.intersects(triangles[t]);
+					if(hit){
+						triangles[t].remove();
+					}
+				}
+			}
+
+			//Listen for 'p' to save content as SVG file.
+			t = new Tool();
+			t.onKeyUp = function(event) {
+				if(event.character == "p") {
+					downloadSvg(paper, 'triangles');
+				}
+			}
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="myCanvas" height="288" width="540"></canvas>
+	</body>
+</html>
