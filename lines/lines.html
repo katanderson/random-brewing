@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			canvas[id="myCanvas"]{
+				background-color:#120C22;
+			}
+		</style>
+		<script type="text/javascript" src="../paperjs-v0.10.2/paper-full.min.js"></script>
+		<script type="text/javascript" src="../utils/random-utils.js"></script>
+		<script type="text/paperscript" canvas="myCanvas">
+
+			var color = "#00EFFB";
+			var canvasWidth = 540;
+			var canvasHeight = 288;
+			var x = -30;
+			var direction, start;
+
+			//Draw random lines in 20 groups of 3
+			for(var j = 0; j < 20; j++){
+				direction = getRandomInt(0, 1); //horizontal vs. vertical
+				start = [getRandomInt(x, x+30), getRandomInt(0, canvasHeight)];
+				for(var i = 0; i < 3; i++){
+					drawLine(start, direction)
+				}
+				x+=25;
+			}
+			
+			function drawLine(point, direction){
+				var length = getRandomInt(30, 60);
+				var padding = getRandomInt(10, 100);
+				var path;
+				path = direction == 0
+					   ? new Path.Line([point[0], point[1] + padding], [point[0] + padding + length, point[1] + padding])
+					   : new Path.Line([point[0] + padding, point[1]], [point[0] + padding, point[1] + padding + length]);
+				path.strokeColor = color;
+				path.strokeWidth = 2.5;
+			}
+
+			//Listen for 'p' to save content as SVG file.
+			t = new Tool();
+			t.onKeyUp = function(event) {
+				if(event.character == "p") {
+					downloadSvg(paper, 'lines2');
+				}
+			}
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="myCanvas" height="288" width="540"></canvas>
+	</body>
+</html>

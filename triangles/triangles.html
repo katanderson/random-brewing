@@ -10,12 +10,12 @@
 		<script type="text/javascript" src="../utils/random-utils.js"></script>
 		<script type="text/paperscript" canvas="myCanvas">
 
-			var color = '#BDFF00';
+			var color = '#00FC6E';
 			var canvasWidth = 540;
 			var canvasHeight = 288;
 
 			//Generate random triangles
-			var count = 25;
+			var count = 20;
 			var triangles = [];
 			var k, hit, triangle;
 
@@ -44,9 +44,7 @@
 			for(n = 0; n < triangles.length; n++){
 				hit = false;
 				if(triangles[n].intersects(leftSide)){
-					triangleClone = triangles[n].clone();
-					triangleClone.position.x += canvasWidth;
-					removeCloneIntersections(triangleClone, triangles);
+					triangles[n].remove();
 				}
 				else if(triangles[n].intersects(rightSide)){
 					triangleClone = triangles[n].clone();
@@ -60,14 +58,15 @@
 
 			function drawTriangle(){
 				var point1 = [getRandomInt(-10, canvasWidth), getRandomInt(-10, canvasHeight + 10)];
-				var point2 = [point1[0] + getRandomInt(60, 130), point1[1] + getRandomInt(-40, 40)];
-				var point3 = [(point1[0] + point2[0])/2 + getRandomInt(-10, 10), point1[1] + getRandomInt(40, 130)];
+				var point2 = [point1[0] + getRandomInt(40, 80), point1[1] + getRandomInt(-20, 20)];
+				var point3 = [(point1[0] + point2[0])/2 + getRandomInt(-10, 10), point1[1] + getRandomInt(20, 100)];
 
 				var segments = [point1, point2, point3];
 				var triangle = new Path({
 					segments: segments,
-					fillColor: color,
-					closed: true,
+					strokeColor: color,
+					strokeWidth: 2,
+					closed: true
 				});
 
 				var rotation = getRandomInt(0, 270);

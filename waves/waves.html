@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			canvas[id="myCanvas"]{
+				background-color:#120C22;
+			}
+		</style>
+		<script type="text/javascript" src="../paperjs-v0.10.2/paper-full.min.js"></script>
+		<script type="text/javascript" src="../utils/random-utils.js"></script>
+		<script type="text/paperscript" canvas="myCanvas">
+
+			var color = '#FFEB00';
+			var canvasWidth = 540;
+			var canvasHeight = 288;
+			var strokeWidth = 4;
+			var waveCount = 12;
+			var wavePadding = 6;
+			var segments = [];
+			var x = 0;
+			var y = origY = 5*canvasHeight/7;
+			var y2;
+				
+			//Draw 6 points to create wave
+			var numWaves = canvasWidth/80;
+			for(var j = 0; j < numWaves; j++){
+				segments.push([x, y]);
+				
+				x += 80;
+				y2 = getRandomInt(0, 120);
+				if(j%2 == 0){
+					y2 *= -1;
+				}
+				y -= y2;
+			}
+
+			//Add the last point at the same height as the first point
+			segments.push([x, origY]);
+
+			//Generate path from points
+			var path = new Path({
+				segments: segments,
+				strokeColor: color,
+				strokeWidth: strokeWidth,
+			});
+			path.smooth();
+
+			//Match the handles of the first and last element so they wrap continuously
+			path.firstSegment.handleOut = new Point(strokeWidth/2, 0);
+			path.lastSegment.handleIn = new Point(-strokeWidth/2, 0);
+
+			//Draw other matching waves
+			var newPath = path.clone();
+			for(var i = 1; i < waveCount; i++){
+				newPath.translate(new Point(0, (-strokeWidth - wavePadding)));
+				newPath.strokeColor = color;//colors[i];
+				newPath.strokeWidth = getRandomInt(1, strokeWidth) - 0.5;
+				newPath = newPath.clone();
+			}
+
+			//Listen for 'p' to save content as SVG file.
+			t = new Tool();
+			t.onKeyUp = function(event) {
+				if(event.character == "p") {
+					downloadSvg(paper, 'waves');
+				}
+			}
+			
+		</script>
+	</head>
+	<body>
+		<canvas id="myCanvas" height="288" width="540"></canvas>
+	</body>
+</html>
