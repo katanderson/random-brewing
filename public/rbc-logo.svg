@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 325 262.65">
+  <style>
+      text, path, line, polygon {
+        fill: black;
+        stroke: black;
+      }
+      @media (prefers-color-scheme: dark) {
+        text, path, line, polygon {
+          fill: white;
+          stroke: white;
+        }
+      }
+  </style>
+  <text transform="translate(30.46 115.17)" style="font-size:45.3961296081543px;font-family:BaseOne-Regular, BaseOne;letter-spacing:-0.015004634748149273em">R</text><text transform="translate(126.4 107.62)" style="font-size:45.3961296081543px;font-family:BaseOne-Regular, BaseOne">N</text><text transform="translate(84.28 137.16)" style="font-size:45.3961296081543px;font-family:BaseOne-Regular, BaseOne;letter-spacing:-0.009992333821527366em">A</text><text transform="translate(176.53 137.16)" style="font-size:45.3961296081543px;font-family:BaseOne-Regular, BaseOne">D</text><text transform="translate(219.79 106.99)" style="font-size:45.3961296081543px;font-family:BaseOne-Regular, BaseOne">O</text><text transform="translate(274.29 125.83)" style="font-size:45.3961296081543px;font-family:BaseOne-Regular, BaseOne">M</text><line x1="167.67" y1="201.93" x2="299.21" y2="153.26" style="stroke-miterlimit:10"/><line x1="30.47" y1="156.74" x2="293.55" y2="191.5" style="stroke-miterlimit:10"/><polygon points="35.64 190.34 176.53 159.12 139.76 194.52 35.64 190.34" style="stroke-miterlimit:10;stroke-width:0.25px"/><path d="M253.41,159.11H209.63a21.89,21.89,0,1,1,43.78,0Z" style="stroke-miterlimit:10;stroke-width:0.25px"/>
+</svg>
